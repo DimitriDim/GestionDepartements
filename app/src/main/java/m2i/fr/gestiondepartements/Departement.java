@@ -88,6 +88,13 @@ public class Departement {
         this.surface = surface;
     }
 
+    public boolean getDepExisctant() {
+        return depExisctant;
+    }
+
+    public void setDepExisctant(boolean depExisctant) {
+        this.depExisctant = depExisctant;
+    }
 
     public Departement(Context ctxt) {
 
@@ -116,7 +123,6 @@ public class Departement {
         //cursor.getCount() est le nombre d'éléments trouvé lors du query
         //si supérieur à 0 donc trouvé,
 
-        System.out.println("getcount: " + cursor.getCount());
         if (cursor.getCount() == 1) {
             depExisctant = true;
             cursor.moveToFirst();
@@ -138,8 +144,8 @@ public class Departement {
     public void delete() throws Exception {
 
         String where = "no_dept ='" + this.noDept + "'";
-        if (this.noDept.equals("")) {
-            //exception
+        if (this.noDept.isEmpty()) {
+            throw new DeptInvalidException();
         } else {
             db.delete(TABLE_NAME, where, null);
         }
@@ -147,8 +153,8 @@ public class Departement {
 
     public void update() throws Exception {
 
-        if (this.noDept.equals("")) {
-            //exception
+        if (this.noDept.isEmpty()) {
+            throw new DeptInvalidException();
         } else {
             //ContentValues tableau de clé - valeur
             ContentValues values = new ContentValues();
@@ -167,8 +173,8 @@ public class Departement {
 
     public void insert() throws Exception {
 
-        if (this.noDept.equals("")) {
-            //exception
+        if (this.noDept.isEmpty()) {
+            throw new DeptInvalidException();
         } else {
             ContentValues values = new ContentValues();
             values.put("no_dept", this.noDept);
@@ -184,12 +190,16 @@ public class Departement {
         }
     }
 
+    //création des classes d'exception interne car ne sera utilisé que par la class Contact
+    public class DeptInvalidException extends Exception {
 
-    public boolean getDepExisctant() {
-        return depExisctant;
+        public DeptInvalidException() {
+
+            //on passe un String en paramètre au constructeur de la classe mère Exception
+            super("Département Inconnue");
+        }
+
     }
 
-    public void setDepExisctant(boolean depExisctant) {
-        this.depExisctant = depExisctant;
-    }
+
 }
