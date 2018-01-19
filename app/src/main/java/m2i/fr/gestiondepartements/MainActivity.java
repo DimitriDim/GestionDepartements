@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         txtChefLieu = findViewById(R.id.txtChefLieu);
         txtUrlWiki = findViewById(R.id.txtUrlWiki);
         txtSearch = findViewById(R.id.txtSearch);
-
         dept = new Departement(this);
     }
 
